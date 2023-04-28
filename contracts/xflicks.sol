@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 contract DApp {
 
     uint public numVideo = 0;
-    string public dappName = "xFlicks";
+    string public dappName = "xflicks";
     mapping(uint => VideoMetadata) public videos;
 
     struct VideoMetadata {

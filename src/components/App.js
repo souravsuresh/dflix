@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import Web3 from "web3";
+
 import { Web3Storage } from "web3.storage/dist/bundle.esm.min.js";
+import Navbar from "./Navbar";
+import Main from "./Main";
+import "./App.css";
+import "dotenv/config";
+
 
 const token = process.env.W3STORAGE_TOKEN;
 const client = new Web3Storage({ token });
@@ -116,13 +122,13 @@ class App extends Component {
 
     render() {
         return (
-          <div>
+          <div className="bg-dark">
             <Navbar
               account={this.state.account}
             />
             {this.state.loading ? (
               <div id="loader" style={loaderStyle}>
-                <p>Loading...</p>
+                <p className="text-white">Loading...</p>
               </div>
             ) : (
               <>
