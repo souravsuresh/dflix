@@ -10,7 +10,16 @@ module.exports = {
     contentBase: path.resolve(__dirname, "dist"),
     port: 8080,
   },
-
+  resolve: {
+   // ...
+   // add the fallback setting below 
+   fallback: {
+     "fs": false,
+     "os": false,
+     "path": false
+   },
+   // ...
+ },
    module: {
       rules: [{
          test: /\.css$/, // To load the css in react
@@ -25,4 +34,5 @@ module.exports = {
          }
       }]
    }
+
 }

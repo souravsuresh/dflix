@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Identicon from "identicon.js";
-import xflicks from "../xflicks.png";
+import dflix from "../dflix.png";
 
 class Navbar extends Component {
   render() {
@@ -17,17 +16,17 @@ class Navbar extends Component {
             rel="noopener noreferrer"
           >
             <img
-              src={xflicks}
+              src={dflix}
               width="30"
               height="30"
               className="d-inline-block align-top"
-              alt="XFLICKS logo"
+              alt="DFLIX logo"
             />
             &nbsp;
             <span
               className= "text-white"
             >
-              XFLICKS
+              DFLIX
             </span>
           </a>
         </div>
@@ -49,12 +48,19 @@ class Navbar extends Component {
                 className="ml-2"
                 width="30"
                 height="30"
-                src={`data:image/png;base64,${new Identicon(
-                  this.props.account,
-                  30
-                ).toString()}`}
-                alt="XFLICKS account address"
+                src=""
+                alt="DFLIX account address"
               />
+            //   <img
+            //   className="ml-2"
+            //   width="30"
+            //   height="30"
+            //   src={`data:image/png;base64,${new Identicon(
+            //     this.props.account,
+            //     30
+            //   ).toString()}`}
+            //   alt="DFLIX account address"
+            // />
             ) : (
               <span></span>
             )}

@@ -1,21 +1,28 @@
 import React, { Component } from "react";
 import Web3 from "web3";
-
+import dFlix from "../abis/DFLIX.json";
 import { Web3Storage } from "web3.storage/dist/bundle.esm.min.js";
 import Navbar from "./Navbar";
 import Main from "./Main";
 import "./App.css";
-import "dotenv/config";
+// import "dotenv/config";
 
 
-const token = process.env.W3STORAGE_TOKEN;
+const token ="";
 const client = new Web3Storage({ token });
+const loaderStyle = {
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+};
 
 class App extends Component {
 
     async componentWillMount() {
+      
       await this.loadWeb3()
-      await this.loadBlockchainData()
+      await this.loadVideos()
     }
   
     async loadWeb3() {
@@ -33,6 +40,8 @@ class App extends Component {
 
 
     async loadVideos() {
+        console.log("Load Videos");
+        
         const web3 = window.web3;
 
         // Load account
@@ -41,33 +50,36 @@ class App extends Component {
 
         // Network ID
         const networkId = await web3.eth.net.getId();
-        const networkData = xFlicks.networks[networkId];
+        const networkData = dFlix.networks[networkId];
         
         if (networkData) {
-        const xflicks = new web3.eth.Contract(xFlicks.abi, networkData.address);
-        this.setState({ xflicks });
+        const dflix = new web3.eth.Contract(dFlix.abi, networkData.address);
+        this.setState({ dflix });
 
-        const numVideo = await xflicks.methods.numVideo().call();
+        const numVideo = await dflix.methods.numVideo().call();
         this.setState({ numVideo });
 
         // Starting in reverse order to get latest videos (Can be improved (suggestion based vides!!?))
         for (var i = numVideo; i >= 1; i--) {
-            const video = await xflicks.methods.videos(i).call();
+            const video = await dflix.methods.videos(i).call();
             this.setState({
             videos: [...this.state.videos, video],
             });
+            console.log(video)
         }
+
+        console.log(numVideo);
         
         //Set current video with title to view as default
-        const currentVideo = await xflicks.methods.videos(numVideo).call();
-
+        const currentVideo = await dflix.methods.videos(numVideo).call();
+        console.log(currentVideo);
         this.setState({
-            currentHash: currentVideo.hash,
+            currentHash: currentVideo._hash,
             currentTitle: currentVideo.title,
         });
         this.setState({ loading: false });
         } else {
-        window.alert("xFlicks contract not deployed to detected network.");
+        window.alert("dflix contract not deployed to detected network.");
         }
     }
 
@@ -86,7 +98,7 @@ class App extends Component {
         const contentHash = await client.put(video.files, { wrapWithDirectory: false });
         console.log("Uploaded video for "+this.state.account+" with title: " + title +" with hash value "+contentHash);
         this.setState({ loading: true });
-        this.state.xflicks.methods
+        this.state.dflix.methods
         .uploadVideo(contentHash, title, description, isPrivate, fees, isSubscription)
         .send({ from: this.state.account })
         .on("transactionHash", (_hash) => {
@@ -106,7 +118,7 @@ class App extends Component {
         this.state = {
           file: null,       // current file
           account: "",      // user account
-          xflicks: null,    // object 
+          dflix: null,    // object 
           videos: [],       // video list  (pagination!?)
           loading: true,    // loading state
           currentHash: null,  // current video hash
@@ -114,12 +126,12 @@ class App extends Component {
           currentDescription : null,
 
         };
-    
+        console.log("Inside constructor");
         this.uploadVideo = this.uploadVideo.bind(this);
         this.captureFile = this.captureFile.bind(this);
         this.changeVideo = this.changeVideo.bind(this);
     }
-
+    
     render() {
         return (
           <div className="bg-dark">
@@ -147,3 +159,4 @@ class App extends Component {
         );
       }
 }
+export default App;

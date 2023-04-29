@@ -1,1 +1,1 @@
-# xFlicks - Decentralized Platform for Content Creators
+# dflix - Decentralized Platform for Content Creators

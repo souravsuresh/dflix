@@ -1,9 +1,9 @@
 pragma solidity ^0.5.0;
 
-contract DApp {
+contract DFlix {
 
     uint public numVideo = 0;
-    string public dappName = "xflicks";
+    string public dappName = "dflix";
     mapping(uint => VideoMetadata) public videos;
 
     struct VideoMetadata {
@@ -33,8 +33,8 @@ contract DApp {
     }
 
     function uploadVideo(string memory _videoHash, string memory _title, 
-                            string memory _description, bool memory _isPrivate, 
-                            uint memory _fees, bool memory _isSubscription) public {
+                            string memory _description, bool _isPrivate, 
+                            uint _fees, bool _isSubscription) public {
         
         require(bytes(_videoHash).length > 0);  // validate if video hash is not empty
         require(bytes(_title).length > 0);      // validate if video title exists

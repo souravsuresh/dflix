@@ -1,5 +1,5 @@
-const xFlicks = artifacts.require("xFlicks");
+const dflix = artifacts.require("dflix");
 
 module.exports = function(deployer) {
-  deployer.deploy(xFlicks);
+  deployer.deploy(dflix);
 };
