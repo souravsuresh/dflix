@@ -1,5 +1,6 @@
 const dflix = artifacts.require("dflix");
 
 module.exports = function(deployer) {
-  deployer.deploy(dflix);
+  const poolAddress = ""; // <-- replace with the actual pool address
+  deployer.deploy(dflix, poolAddress);
 };
