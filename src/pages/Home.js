@@ -1,38 +1,34 @@
-import Banner from "../components/Banner";
 import Row from "../components/Row";
 import Nav from "../components/Nav";
+import Hero from "../components/Hero";
 
-import request from "../request";
 import { loadVideos } from '../web3'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home({ account, dflix }) {
+    const [currentVideo, setCurrentVideo] = useState();
+    const [videos, setVideos] = useState([]);
 
     useEffect(() => {
-        loadVideos(account, dflix)
-            .then(response => {
-                console.log('load videos response', response)
-            })
-            .catch(console.error)
+        setVideos([]);
+        loadVideos(account, dflix).then(response => {
+            setVideos([...response])
+            if (!currentVideo && response && response[0]) {
+                setCurrentVideo(response[0])
+            }
+            console.log('videos state updated', videos)
+        }).catch(console.error)
     }, []);
+
+    useEffect(() => {
+        console.info('VIDEOS UPDATED!!!')
+    }, [videos])
 
     return (
         <div className="app">
             <Nav account={account} dflix={dflix} />
-            <Banner url={request.fetchNetflixOriginals} />
-            <Row
-                key="1"
-                title="DFLIX ORIGINALS"
-                fetchUrl={request.fetchNetflixOriginals}
-                isLarge="true"
-            />
-            <Row key="2" title="Trending Now" fetchUrl={request.fetchTrending} />
-            <Row key="3" title="Top Rated" fetchUrl={request.fetchTopRated} />
-            <Row key="4" title="Action Movies" fetchUrl={request.fetchActionMovies} />
-            <Row key="5" title="Comedy Movies" fetchUrl={request.fetchComedyMovies} />
-            <Row key="6" title="Horror Movies" fetchUrl={request.fetchHorrorMovies} />
-            <Row key="7" title="Romance Movies" fetchUrl={request.fetchRomanceMovies} />
-            <Row key="8" title="Documentaries" fetchUrl={request.fetchDocumentries} />
+            <Hero video={currentVideo}/>
+            <Row key="0" title="All" videos={videos} currentVideo={currentVideo} setCurrentVideo={setCurrentVideo} noScroll={true}/>
         </div>
     );
 }

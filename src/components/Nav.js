@@ -7,8 +7,6 @@ import "./Nav.css";
 
 const Nav = ({ account, dflix }) => {
 
-  console.log('NAVBAR', account, dflix);
-
   const [isBlack, setIsBlack] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
 

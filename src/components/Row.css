@@ -29,7 +29,6 @@
 .poster {
   object-fit: contain;
   max-height: 150px;
-  margin-right: 10px;
   transition: transform 450s;
 }
 .poster:hover {
@@ -56,4 +55,23 @@
   position: relative;
   top: 3px;
   margin-right: 3px;
+}
+.playing {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+.playing-backdrop {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background: rgba(20, 20, 20, .8);
+}
+.playing img {
+  width: 20px;
+  position: relative;
+  top: 4px;
+  margin-right: 4px;
 }
