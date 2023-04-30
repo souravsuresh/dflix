@@ -1,0 +1,59 @@
+.row {
+  margin-left: 10px;
+  color: white;
+}
+.posters {
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  padding: 20px 0px 20px 5px;
+}
+.posters.noScroll {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.posters.noScroll > div {
+  margin: 1rem;
+}
+.posters::-webkit-scrollbar {
+  display: none;
+}
+.posters > div {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+}
+.posters > div:hover h4 {
+  color: red;
+}
+.poster {
+  object-fit: contain;
+  max-height: 150px;
+  margin-right: 10px;
+  transition: transform 450s;
+}
+.poster:hover {
+  transform: scale(1.8);
+  cursor: pointer;
+}
+.posterLarge {
+  max-height: 250px;
+}
+.posterLarge:hover {
+  transform: scale(1.9);
+}
+.poster::after {
+  content: "subscription";
+}
+.subscription {
+  flex: 1;
+  color: gold;
+  font-size: .8rem;
+  font-weight: 100;
+}
+.subscription > img {
+  max-width: 1rem;
+  position: relative;
+  top: 3px;
+  margin-right: 3px;
+}
