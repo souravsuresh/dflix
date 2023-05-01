@@ -29,6 +29,8 @@
 .poster {
   object-fit: contain;
   max-height: 150px;
+  min-width: 300px;
+  aspect-ratio: 16 / 9;
 }
 .posterLarge {
   max-height: 250px;

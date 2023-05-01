@@ -13,6 +13,7 @@ const Upload = ({ account, dflix }) => {
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState();
   const [access, setAccess] = useState('none');
+  const [fees, setFees] = useState();
 
   const captureThumbnail = () => {
     const file = document.querySelector('#input-thumbnail-upload');
@@ -70,7 +71,7 @@ const Upload = ({ account, dflix }) => {
       title,
       video,
       description,
-      fees: 0,
+      fees : access === 'private' ? fees : 0,
       isPrivate: access === 'private',
       isSubscription: access === 'sub'
     }
@@ -125,19 +126,23 @@ const Upload = ({ account, dflix }) => {
       <h2 className="upload-title-text">Enter Title</h2>
       <input
         id="upload-title-input"
+        className="upload-input"
         type="text"
         required
         autoComplete="off"
+        value={title}
         onChange={e => setTitle(e.target.value)}
       />
       
-      <h2 className="upload-title-text" style={{marginTop: '1rem'}}>Enter Description</h2>
+      <h2 className="upload-desc-text" style={{marginTop: '1rem'}}>Enter Description</h2>
       <textarea
-        id="upload-title-input"
+        id="upload-desc-input"
+        className="upload-input"
         type="text"
         required
-        rows={8}
+        rows={5}
         autoComplete="off"
+        value={description}
         onChange={e => setDescription(e.target.value)}
       />
 
@@ -201,15 +206,28 @@ const Upload = ({ account, dflix }) => {
             <input id="access-none" name="access-control" value='none' type="radio" checked={access === 'none'} onChange={handleAccessControl} />
             <label for="access-none" className="radio-label">None</label>
           </div>
-          
-          <div className="radio">
-            <input id="access-private" name="access-control" value='private' type="radio" checked={access === 'private'} onChange={handleAccessControl} />
-            <label  for="access-private" className="radio-label">Private</label>
-          </div>
 
           <div className="radio">
             <input id="access-subscribed" name="access-control" value='sub' type="radio" checked={access === 'sub'} onChange={handleAccessControl} />
             <label for="access-subscribed" className="radio-label">Subscriber-Only</label>
+          </div>
+
+          <div className="radio" style={{display: 'flex', alignItems: 'center'}}>
+            <div>
+              <input id="access-private" name="access-control" value='private' type="radio" checked={access === 'private'} onChange={handleAccessControl} />
+              <label  for="access-private" className="radio-label">Private</label>
+            </div>
+            <input
+              id="upload-fees"
+              type="number"
+              className="upload-input"
+              required
+              autoComplete="off"
+              placeholder="Fees"
+              value={fees}
+              hidden={access !== 'private'}
+              onChange={e => setFees(e.target.value)}
+            />
           </div>
         </div>
       </div>

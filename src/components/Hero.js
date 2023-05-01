@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../axios";
 import "./Hero.css";
-
+import HeroSVG from '../assets/hero.svg'
 const baseUrl = `https://w3s.link/ipfs/`;
 
 const Hero = ({ video }) => {
@@ -9,7 +9,8 @@ const Hero = ({ video }) => {
     <header
       className="hero"
       style={{
-        background: `url("https://image.tmdb.org/t/p/original//9n2tJBplPbgR2ca05hS5CKXwP2c.jpg")`,
+        background: `url("${HeroSVG}")`,
+        backgroundColor: '#141414',
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
       }}

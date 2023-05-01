@@ -46,7 +46,7 @@
 }
 .black {
   height: 30px;
-  background-color: #141414;
+  background-color: #0a0a0a;
   transition: background-color 0.3s ease-in;
 }
 .nav_avatar_details {

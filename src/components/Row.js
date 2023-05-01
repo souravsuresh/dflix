@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "../axios";
 import "./Row.css";
 import LockIcon from '../assets/lock.svg';
-import PlayIcon from '../assets/play.svg'
-
-const sampleImage = `https://image.tmdb.org/t/p/original//9n2tJBplPbgR2ca05hS5CKXwP2c.jpg`;
+import PlayIcon from '../assets/play.svg';
+import leavesSVG from '../assets/leaves.svg';
 
 const Row = ({ title, videos, currentVideo, setCurrentVideo, noScroll=false, clickable=true }) => {
 
@@ -24,7 +23,7 @@ const Row = ({ title, videos, currentVideo, setCurrentVideo, noScroll=false, cli
               <div style={{position: "relative", cursor: "pointer"}} onClick={() => hadleClick(video)}>
                 <img
                   key={video.id}
-                  src={sampleImage}
+                  src={leavesSVG}
                   // src={`${baseUrl}${video._hash}`}
                   alt={video.title}
                   className="poster"

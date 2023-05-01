@@ -30,7 +30,7 @@ h2 {
   justify-content: space-around;
   flex-wrap: wrap;
 }
-#upload-title-input {
+.upload-input {
   background: none;
   border: 1px solid rgba(40,40,40);
   background: rgba(40,40,40);
@@ -39,6 +39,7 @@ h2 {
   font-size: larger;
   width: 300px;
   margin-top: 8px;
+  font-family: 'Nunito';
 }
 .upload-label {
   width: 100%;
@@ -98,11 +99,11 @@ h2 {
 }
 .access-control  {
   text-align: left;
-  max-width: 200px;
+  max-width: 300px;
   margin: 1rem auto;
 }
 .radio {
-  margin: 0.5rem;
+  height: 3rem;
 }
 .radio input[type=radio] {
   position: absolute;
@@ -139,4 +140,14 @@ h2 {
 }
 .radio input[type=radio] + .radio-label:empty:before {
   margin-right: 0;
+}
+#upload-fees {
+  display: inline-block;
+  width: 60px;
+  height: 15px;
+  margin: 0;
+  margin-left: 20px;
+}
+#upload-fees[hidden] {
+  display: none;
 }
