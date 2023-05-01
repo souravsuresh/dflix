@@ -29,17 +29,9 @@
 .poster {
   object-fit: contain;
   max-height: 150px;
-  transition: transform 450s;
-}
-.poster:hover {
-  transform: scale(1.8);
-  cursor: pointer;
 }
 .posterLarge {
   max-height: 250px;
-}
-.posterLarge:hover {
-  transform: scale(1.9);
 }
 .poster::after {
   content: "subscription";

@@ -11,7 +11,6 @@ import "./App.css";
 export default function App() {
   const [account, setAccount] = useState();
   const [dflix, setDflix] = useState();
-  const [videos, setVideos] = useState();
 
   useEffect(() => {
     loadWeb3().then(() => {
@@ -22,14 +21,6 @@ export default function App() {
   useEffect(() => {
     loadContract(account).then(setDflix)
   }, [account]);
-
-  useEffect(() => {
-    loadVideos(account, dflix).then(setVideos);
-  }, [account, dflix]);
-
-  useEffect(() => {
-    console.log('videos loaded...', videos)
-  }, [videos]);
 
   return (
     <Switch>

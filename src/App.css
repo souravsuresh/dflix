@@ -4,7 +4,7 @@
 * {
   margin: 0;
 }
-.app {
+html, .app {
   background: #141414;
   color: aliceblue;
   font-family: 'Nunito', sans-serif;

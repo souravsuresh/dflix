@@ -45,7 +45,7 @@ export async function loadContract(account) {
 }
 
 export async function loadVideos(account, dflix) {
-    if (!account || !dflix) return;
+    if (!account || !dflix) return [];
     console.log('loadVideos started...');
     const numVideo = await dflix.methods.numVideo().call();
     

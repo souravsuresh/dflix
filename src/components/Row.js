@@ -19,7 +19,6 @@ const Row = ({ title, videos, currentVideo, setCurrentVideo, noScroll=false }) =
       <h2>{title}</h2>
       <div className={`posters ${noScroll ? "noScroll" : ''}`}>
         {videos && videos.map((video, i) => {
-          console.log('rendering row video', video)
           return (
             <div key={i}>
               
