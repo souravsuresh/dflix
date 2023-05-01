@@ -4,9 +4,7 @@ import "./Row.css";
 import LockIcon from '../assets/lock.svg';
 import PlayIcon from '../assets/play.svg'
 
-const baseUrl = `https://w3s.link/ipfs/`;
 const sampleImage = `https://image.tmdb.org/t/p/original//9n2tJBplPbgR2ca05hS5CKXwP2c.jpg`;
-const sampleVideo = `https://www.youtube.com/watch?v=xthe53TvFg4`;
 
 const Row = ({ title, videos, currentVideo, setCurrentVideo, noScroll=false }) => {
 
@@ -16,7 +14,7 @@ const Row = ({ title, videos, currentVideo, setCurrentVideo, noScroll=false }) =
 
   return (
     <div className="row">
-      <h2>{title}</h2>
+      {title ? <h2 style={{marginLeft: "1rem"}}>{title}</h2> : ''}
       <div className={`posters ${noScroll ? "noScroll" : ''}`}>
         {videos && videos.map((video, i) => {
           return (

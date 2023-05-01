@@ -22,7 +22,7 @@ export default function Home({ account, dflix }) {
         <div className="app">
             <Nav account={account} dflix={dflix} />
             <Hero video={currentVideo}/>
-            <Row key="0" title="Recent" videos={videos} currentVideo={currentVideo} setCurrentVideo={setCurrentVideo} noScroll={true}/>
+            <Row key="0" title="Library" videos={videos} currentVideo={currentVideo} setCurrentVideo={setCurrentVideo} noScroll={true}/>
         </div>
     );
 }
