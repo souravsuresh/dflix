@@ -6,10 +6,11 @@ import PlayIcon from '../assets/play.svg'
 
 const sampleImage = `https://image.tmdb.org/t/p/original//9n2tJBplPbgR2ca05hS5CKXwP2c.jpg`;
 
-const Row = ({ title, videos, currentVideo, setCurrentVideo, noScroll=false }) => {
+const Row = ({ title, videos, currentVideo, setCurrentVideo, noScroll=false, clickable=true }) => {
 
   const hadleClick = (video) => {
-    setCurrentVideo(video)
+    if (!clickable) return;
+    setCurrentVideo(video);
   };
 
   return (
@@ -41,6 +42,13 @@ const Row = ({ title, videos, currentVideo, setCurrentVideo, noScroll=false }) =
                 <span className="subscription">
                   <img src={LockIcon} alt="locked"/> 
                   subscription
+                </span>
+              )}
+
+              {video.isPrivate && (
+                <span className="subscription">
+                  <img src={LockIcon} alt="locked"/> 
+                  private
                 </span>
               )}
               

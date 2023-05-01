@@ -21,7 +21,7 @@ export default function Channel({ account, dflix }) {
             <Nav account={account} dflix={dflix} />
             <Upload account={account} dflix={dflix} />
             <Row
-                title="My Content"
+                title="My Videos"
                 videos={videos}
                 noScroll={true}
             />

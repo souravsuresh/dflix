@@ -10,3 +10,6 @@ html, .app {
   font-family: 'Nunito', sans-serif;
   min-height: 100vh;
 }
+#root {
+  position: relative;
+}

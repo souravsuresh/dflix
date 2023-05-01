@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 
 import { uploadVideo } from '../web3'
 
@@ -10,7 +10,9 @@ const Upload = ({ account, dflix }) => {
   const [title, setTitle] = useState();
   const [thumbnail, setThumbnail] = useState();
   const [video, setVideo] = useState();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [description, setDescription] = useState();
+  const [access, setAccess] = useState('none');
 
   const captureThumbnail = () => {
     const file = document.querySelector('#input-thumbnail-upload');
@@ -49,6 +51,11 @@ const Upload = ({ account, dflix }) => {
       return;
     }
     
+    if (!description) {
+      window.alert('Please enter description');
+      return;
+    }
+    
     if (!thumbnail) {
       window.alert('Please select thumbnail.');
       return;
@@ -62,10 +69,10 @@ const Upload = ({ account, dflix }) => {
     const content = {
       title,
       video,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+      description,
       fees: 0,
-      isPrivate: false,
-      isSubscription: false
+      isPrivate: access === 'private',
+      isSubscription: access === 'sub'
     }
     setLoading(true)
     uploadVideo(account, dflix, content)
@@ -81,21 +88,57 @@ const Upload = ({ account, dflix }) => {
       })
   }
 
-  function clearAll() {
-    setTitle('')
-    setThumbnail()
-    setVideo()
+  function handleAccessControl(e) {
+    if (!e.target.value) return;
+    setAccess(e.target.value)
   }
 
+  function clearAll() {
+    setTitle('')
+    setDescription('')
+    setThumbnail()
+    setVideo()
+    setAccess('none')
+  }
+
+  useLayoutEffect(() => {
+    const root = document.querySelector('#root');
+    if (loading) {
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100%";
+      if (!root.classList.contains('loading')) {
+        root.classList.add('loading');
+      }
+    }
+    if (!loading) {
+      document.body.style.overflow = "auto";
+      document.body.style.height = "auto";
+      if (root.classList.contains('loading')) {
+        root.classList.remove('loading');
+      }
+    }
+  }, [loading]);
+
   return (
-    <div className="upload-container">
+    <div className={`upload-container ${loading ? 'loading' : ''}`}>
+      <h1 className="upload-title-text" style={{marginBottom: '2rem'}}>Upload Content</h1>
       <h2 className="upload-title-text">Enter Title</h2>
       <input
         id="upload-title-input"
         type="text"
         required
         autoComplete="off"
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={e => setTitle(e.target.value)}
+      />
+      
+      <h2 className="upload-title-text" style={{marginTop: '1rem'}}>Enter Description</h2>
+      <textarea
+        id="upload-title-input"
+        type="text"
+        required
+        rows={8}
+        autoComplete="off"
+        onChange={e => setDescription(e.target.value)}
       />
 
       <div className="upload">
@@ -149,6 +192,26 @@ const Upload = ({ account, dflix }) => {
           </button>
         </div>
 
+      </div>
+
+      <div style={{marginBottom: '2rem'}}>
+        <h2>Select content access control</h2>
+        <div className="access-control">
+          <div className="radio">
+            <input id="access-none" name="access-control" value='none' type="radio" checked={access === 'none'} onChange={handleAccessControl} />
+            <label for="access-none" className="radio-label">None</label>
+          </div>
+          
+          <div className="radio">
+            <input id="access-private" name="access-control" value='private' type="radio" checked={access === 'private'} onChange={handleAccessControl} />
+            <label  for="access-private" className="radio-label">Private</label>
+          </div>
+
+          <div className="radio">
+            <input id="access-subscribed" name="access-control" value='sub' type="radio" checked={access === 'sub'} onChange={handleAccessControl} />
+            <label for="access-subscribed" className="radio-label">Subscriber-Only</label>
+          </div>
+        </div>
       </div>
 
       <button className="btn-primary" onClick={uploadFiles} disabled={loading}> {loading ? "LOADING..." : "UPLOAD" }</button>
