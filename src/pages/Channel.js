@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from "react";
-
 import Upload from "../components/Upload";
 import Row from "../components/Row";
 import Nav from "../components/Nav";
 
-import request from "../request";
+import { loadVideos } from '../web3'
+import { useEffect, useState } from "react";
 
-export default function Channel(props) {
+export default function Channel({ account, dflix }) {
+    const [videos, setVideos] = useState();
+    
+    useEffect(() => {
+        loadVideos(account, dflix).then(response => {
+            const data = response.filter(o => o && o.author && o.author === account)
+            setVideos([...data])
+        });
+    }, [account, dflix]);
+
+
     return (
         <div className="app">
-            <Nav {...props} />
-            <Upload {...props} />
+            <Nav account={account} dflix={dflix} />
+            <Upload account={account} dflix={dflix} />
             <Row
-                title="My Uploads"
-                fetchUrl={request.fetchNetflixOriginals}
+                title="My Content"
+                videos={videos}
                 noScroll={true}
             />
         </div>

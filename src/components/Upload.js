@@ -94,6 +94,7 @@ const Upload = ({ account, dflix }) => {
         id="upload-title-input"
         type="text"
         required
+        autoComplete="off"
         onChange={(e) => setTitle(e.target.value)}
       />
 

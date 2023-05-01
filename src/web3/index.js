@@ -80,7 +80,6 @@ export async function isSubscribed(account, dflix) {
 }
 
 export async function buySubscription(account, dflix) {
-    console.log("buySubscription", account, dflix)
     if (!account || !dflix) return;
     console.log('buySubscription started...');
     const fromDate = new Date();
