@@ -5,7 +5,7 @@ import Nav from "../components/Nav";
 import { loadVideos } from '../web3'
 import { useEffect, useState } from "react";
 
-export default function Channel({ account, dflix }) {
+export default function Channel({ account, dflix, subscribed }) {
     const [videos, setVideos] = useState();
     
     useEffect(() => {
@@ -18,12 +18,16 @@ export default function Channel({ account, dflix }) {
 
     return (
         <div className="app">
-            <Nav account={account} dflix={dflix} />
+            <Nav account={account} dflix={dflix} subscribed={subscribed} />
             <Upload account={account} dflix={dflix} />
             <Row
                 title="My Videos"
                 videos={videos}
                 noScroll={true}
+                clickable={false}
+                privateMetadata={[]}
+                account={account}
+                dflix={dflix}
             />
         </div>
     );

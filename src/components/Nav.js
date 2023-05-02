@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "wouter";
 
-import { isSubscribed, buySubscription } from '../web3'
+import { buySubscription } from '../web3'
 
 import "./Nav.css";
 
-const Nav = ({ account, dflix }) => {
+const Nav = ({ account, dflix, subscribed }) => {
 
   const [isBlack, setIsBlack] = useState(false);
-  const [subscribed, setSubscribed] = useState(false);
 
-  const handleScroll = ({ account, dflix }) => {
+  const handleScroll = () => {
     if (window.scrollY > 100) {
       setIsBlack(true);
     } else {
@@ -19,24 +18,17 @@ const Nav = ({ account, dflix }) => {
   };
 
   useEffect(() => {
-    isSubscribedHandler();
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [account, dflix]);
 
   const buySubscriptionHandler = () => {
     buySubscription(account, dflix).then(console.log).catch(console.error)
   }
 
-  const isSubscribedHandler = () => {
-    isSubscribed(account, dflix)
-      .then(response => {
-        setSubscribed(response.subscribed)
-      })
-      .catch(console.error)
-  }
+  
 
   return (
     <div className={`nav ${isBlack ? "black" : ""}`}>

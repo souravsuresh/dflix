@@ -55,19 +55,36 @@ export async function loadVideos(account, dflix) {
         const video = dflix.methods.videos(i).call();
         videos.push(video);
     }
-    const resolved_videos = await Promise.all(videos)
+    const resolved_videos = await Promise.all(videos);
     console.log('loadVideos completed...', resolved_videos);
     return resolved_videos;
 }
 
-export async function uploadVideo(account, dflix, {title, video, description = "", isPrivate = false, fees = 0, isSubscription = false}) {
+export async function loadPrivateVideosMapping(account, dflix) {
+    if (!account || !dflix) return [];
+    console.log('loadPrivateVideosMapping started...');
+    const numVideo = await dflix.methods.numPrivateVideo().call();
+    
+    // Starting in reverse order to get latest videos
+    const videos = [];
+    for (var i = numVideo; i > 0; i--) {
+        const video = dflix.methods.privateVideosMapping(i).call();
+        videos.push(video);
+    }
+    const resolved_videos = await Promise.all(videos);
+    console.log('loadPrivateVideosMapping completed...', resolved_videos);
+    return resolved_videos;
+}
+
+export async function uploadVideo(account, dflix, {title, video, thumbnail, description = "", isPrivate = false, fees = 0, isSubscription = false}) {
     if (!account || !dflix) return;
     console.log('uploadVideo started...');
     const contentHash = await client.put([video], { wrapWithDirectory: false });
+    const thumbnailHash = await client.put([thumbnail], { wrapWithDirectory: false });
     console.log("Uploaded video for " + account + " with title: " + title + " with hash value " + contentHash);
     
-    const _hash = await dflix.methods.uploadVideo(contentHash, title, description, isPrivate, fees, isSubscription).send({ from: account });
-    console.log('uploadVideo completed...', "Transaction hash ::", _hash);
+    const _hash = await dflix.methods.uploadVideo(contentHash, title, description, isPrivate, parseFloat(fees), isSubscription).send({ from: account });
+    console.log('uploadVideo completed...', "Transaction hash ::", _hash);    
     return _hash;
 }
 
@@ -88,4 +105,11 @@ export async function buySubscription(account, dflix) {
     const data = await dflix.methods.buySubscription(account, fromDate.getTime(), toDate.getTime()).send({ from: account });
     console.log('buySubscription completed...', data);
     return data;
+}
+
+export async function buyPrivateVideo(account, dflix, video) {
+    if (!account && !dflix) return;
+    console.log('buyPrivateVideo started...')
+    const data = await dflix.methods.buyPrivateVideo(video.id).send({from: account});
+    console.log('buyPrivateVideo completed...', data)
 }

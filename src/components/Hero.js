@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "../axios";
+import React from "react";
 import "./Hero.css";
 import HeroSVG from '../assets/hero.svg'
 const baseUrl = `https://w3s.link/ipfs/`;

@@ -70,6 +70,7 @@ const Upload = ({ account, dflix }) => {
     const content = {
       title,
       video,
+      thumbnail,
       description,
       fees : access === 'private' ? fees : 0,
       isPrivate: access === 'private',
