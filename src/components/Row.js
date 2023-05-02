@@ -1,12 +1,14 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import "./Row.css";
 import LockIcon from '../assets/lock.svg';
 import PlayIcon from '../assets/play.svg';
-import leavesIcon from '../assets/leaves.svg';
-import { buyPrivateVideo, buySubscription } from '../web3'
+import { buyPrivateVideo, isSubscribed } from '../web3'
 
-const Row = ({ account, dflix, title, videos, currentVideo, setCurrentVideo, noScroll=false, clickable=true, subscribed, privateMetadata }) => {
+const baseUrl = `https://w3s.link/ipfs/`;
 
+const Row = ({ account, dflix, title, videos, currentVideo, setCurrentVideo, noScroll=false, clickable=true, privateMetadata }) => {
+
+  const [subbed, setSubbed] = useState(false);
   const [loading, setLoading] = useState();
 
   useLayoutEffect(() => {
@@ -27,9 +29,18 @@ const Row = ({ account, dflix, title, videos, currentVideo, setCurrentVideo, noS
     }
   }, [loading]);
 
+  useEffect(() => {
+    isSubscribed(account, dflix)
+      .then(response => {
+        if (response && response.subscribed)
+          setSubbed(true)
+      })
+      .catch(console.error)
+  }, [account, dflix]);
+
   const hadleClick = (video) => {
     if (!clickable) return;
-    if (video.isSubscription && !subscribed) {
+    if (video.isSubscription && !subbed) {
       window.alert('Please subscribe to watch this content.');
       return;
     }
@@ -64,10 +75,9 @@ const Row = ({ account, dflix, title, videos, currentVideo, setCurrentVideo, noS
               <div style={{position: "relative", cursor: "pointer"}} onClick={() => hadleClick(video)}>
                 <img
                   key={video.id}
-                  src={leavesIcon}
-                  // src={`${baseUrl}${video._hash}`}
-                  alt={video.title}
+                  src={`${baseUrl}${video.thumbnalHash}`}
                   className="poster"
+                  alt="poster"
                 />
                 {currentVideo && video.id === currentVideo.id && (
                   <div className="playing-backdrop"></div>

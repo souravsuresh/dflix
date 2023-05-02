@@ -1,13 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { Link } from "wouter";
 
-import { buySubscription } from '../web3'
+import { buySubscription, isSubscribed } from '../web3'
 
 import "./Nav.css";
 
-const Nav = ({ account, dflix, subscribed }) => {
+const Nav = ({ account, dflix }) => {
 
   const [isBlack, setIsBlack] = useState(false);
+  const [loading, setLoading] = useState();
+  const [subbed, setSubbed] = useState(false);
+
+  useLayoutEffect(() => {
+    const root = document.querySelector('#root');
+    if (loading) {
+      document.body.style.overflow = "hidden";
+      document.body.style.height = "100%";
+      if (!root.classList.contains('loading')) {
+        root.classList.add('loading');
+      }
+    }
+    if (!loading) {
+      document.body.style.overflow = "auto";
+      document.body.style.height = "auto";
+      if (root.classList.contains('loading')) {
+        root.classList.remove('loading');
+      }
+    }
+  }, [loading]);
 
   const handleScroll = () => {
     if (window.scrollY > 100) {
@@ -18,14 +38,32 @@ const Nav = ({ account, dflix, subscribed }) => {
   };
 
   useEffect(() => {
+
+    isSubscribed(account, dflix)
+      .then(response => {
+        if (response && response.subscribed)
+          setSubbed(true)
+      })
+      .catch(console.error)
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [account, dflix]);
 
+
+
   const buySubscriptionHandler = () => {
-    buySubscription(account, dflix).then(console.log).catch(console.error)
+    setLoading(true)
+    buySubscription(account, dflix).then(response => {
+      console.log("buySubscription", response)
+      setLoading(false)
+      setSubbed(response.subscribed)
+    }).catch(err => {
+      console.error(err)
+      setLoading(false)
+    })
   }
 
   
@@ -44,7 +82,7 @@ const Nav = ({ account, dflix, subscribed }) => {
       <div className="nav_right">
         <div className="nav_links">
           {
-            !subscribed 
+            !subbed 
               ? <button onClick={buySubscriptionHandler}>Buy Subscription</button> 
               : <span style={{cursor: "default"}}>Subscribed User</span>
           }

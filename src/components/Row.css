@@ -53,7 +53,7 @@
 .playing {
   position: absolute;
   top: 1rem;
-  left: 1rem;
+  left: 2rem;
 }
 .playing-backdrop {
   content: '';

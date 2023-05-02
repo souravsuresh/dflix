@@ -83,7 +83,7 @@ export async function uploadVideo(account, dflix, {title, video, thumbnail, desc
     const thumbnailHash = await client.put([thumbnail], { wrapWithDirectory: false });
     console.log("Uploaded video for " + account + " with title: " + title + " with hash value " + contentHash);
     
-    const _hash = await dflix.methods.uploadVideo(contentHash, title, description, isPrivate, parseFloat(fees), isSubscription).send({ from: account });
+    const _hash = await dflix.methods.uploadVideo(contentHash, title, thumbnailHash, description, isPrivate, parseFloat(fees), isSubscription).send({ from: account });
     console.log('uploadVideo completed...', "Transaction hash ::", _hash);    
     return _hash;
 }
@@ -98,11 +98,11 @@ export async function isSubscribed(account, dflix) {
 
 export async function buySubscription(account, dflix) {
     if (!account || !dflix) return;
-    console.log('buySubscription started...');
+    console.log('buySubscription started...', account);
     const fromDate = new Date();
     const toDate = new Date(fromDate);
     toDate.setDate(fromDate.getDate() + 30);
-    const data = await dflix.methods.buySubscription(account, fromDate.getTime(), toDate.getTime()).send({ from: account });
+    const data = await dflix.methods.buySubscription("" + account, fromDate.getTime(), toDate.getTime()).send({ from: account });
     console.log('buySubscription completed...', data);
     return data;
 }
